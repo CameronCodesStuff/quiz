@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Egyptian History Quiz</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .question {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+        .answer {
+            margin: 10px;
+            font-size: 20px;
+            background-color: #333;
+            padding: 10px;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        .answer:hover {
+            background-color: #555;
+        }
+        .green-flash {
+            background-color: green;
+            color: white;
+            padding: 20px;
+            font-size: 20px;
+            transition: background-color 0.5s;
+        }
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <div id="status">
+            <p>Questions Correct: <span id="correct">0</span></p>
+            <p>Questions Left: <span id="remaining">10</span></p>
+        </div>
+        <div id="question-container">
+            <div id="question" class="question"></div>
+            <button class="answer" onclick="checkAnswer(0)"></button>
+            <button class="answer" onclick="checkAnswer(1)"></button>
+            <button class="answer" onclick="checkAnswer(2)"></button>
+            <button class="answer" onclick="checkAnswer(3)"></button>
+        </div>
+    </div>
+
+    <script>
+        let questions = [
+            {
+                question: "Who was the pharaoh that ruled ancient Egypt for 66 years?",
+                answers: ["Tutankhamun", "Ramses II", "Cleopatra", "Seti I"],
+                correct: 1
+            },
+            {
+                question: "What is Ramses II famous for, aside from his long reign?",
+                answers: ["Being a great general", "Building the Great Pyramid", "His military prowess and building projects", "Being the first pharaoh"],
+                correct: 2
+            },
+            {
+                question: "What was the Battle of Kadesh, and who did Ramses II fight against?",
+                answers: ["A battle against the Greeks", "A naval battle against the Phoenicians", "A battle against the Hittites", "A rebellion in Egypt"],
+                correct: 2
+            },
+            {
+                question: "How did Ramses II portray the outcome of the Battle of Kadesh in his carvings?",
+                answers: ["As a massive defeat", "As a tie", "As a total victory", "As a diplomatic negotiation"],
+                correct: 2
+            },
+            {
+                question: "Was the Battle of Kadesh a true victory for Ramses II?",
+                answers: ["Yes, it was a decisive victory", "No, it ended in a stalemate", "Yes, he won the battle and conquered the Hittites", "No, Ramses was captured"],
+                correct: 1
+            },
+            {
+                question: "How did Ramses II use propaganda to solidify his legacy?",
+                answers: ["By building massive monuments and claiming victory in battles", "By hiding his failures", "By making the people worship him as a god", "By limiting his public appearances"],
+                correct: 0
+            },
+            {
+                question: "What is one of Ramses II's most famous building projects?",
+                answers: ["The Great Pyramid", "The Sphinx", "The temples at Abu Simbel", "The Hanging Gardens of Babylon"],
+                correct: 2
+            },
+            {
+                question: "How did Ramses II maintain his god-like status among the Egyptian people?",
+                answers: ["By performing daily rituals", "By building grand temples", "By winning battles", "By ruling for many years without ever losing a war"],
+                correct: 1
+            },
+            {
+                question: "Where can you find the grand temples and statues built by Ramses II?",
+                answers: ["In Thebes", "At Giza", "At Abu Simbel", "In Cairo"],
+                correct: 2
+            },
+            {
+                question: "What significant discovery was made about Ramses II in 1881?",
+                answers: ["His tomb was found", "His mummy was discovered", "His chariot was uncovered", "His library was found"],
+                correct: 1
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let correctAnswers = 0;
+        let remainingQuestions = questions.length;
+
+        function loadQuestion() {
+            if (currentQuestionIndex >= questions.length) {
+                document.getElementById('question-container').innerHTML = "<h2>Quiz Complete! You got " + correctAnswers + " out of " + questions.length + " correct!</h2>";
+                return;
+            }
+
+            let question = questions[currentQuestionIndex];
+            document.getElementById('question').innerText = question.question;
+            let answerButtons = document.querySelectorAll('.answer');
+            for (let i = 0; i < 4; i++) {
+                answerButtons[i].innerText = question.answers[i];
+            }
+        }
+
+        function checkAnswer(selected) {
+            let question = questions[currentQuestionIndex];
+            let correctButton = document.querySelectorAll('.answer')[question.correct];
+
+            if (selected === question.correct) {
+                correctAnswers++;
+                document.body.classList.add('green-flash');
+                setTimeout(function() {
+                    document.body.classList.remove('green-flash');
+                    updateStatus();
+                    currentQuestionIndex++;
+                    loadQuestion();
+                }, 500);
+            } else {
+                updateStatus();
+                currentQuestionIndex++;
+                loadQuestion();
+            }
+        }
+
+        function updateStatus() {
+            remainingQuestions--;
+            document.getElementById('correct').innerText = correctAnswers;
+            document.getElementById('remaining').innerText = remainingQuestions;
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
+
+
